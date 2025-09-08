@@ -1,0 +1,184 @@
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+
+
+
+/* 90s GEOCITIES HOT DOG STAND THEME - Maximum Retro Vibes! */
+
+@layer preflight {
+  :root {
+    /* Hot Dog Stand Color Scheme - Golden Mustard & Ketchup Red! */
+    --background: 45 100% 60%; /* Golden mustard yellow background */
+    --foreground: 0 0% 0%; /* Black text */
+
+    --card: 0 100% 40%; /* Ketchup red cards */
+    --card-foreground: 60 100% 95%; /* Light yellow text on cards */
+
+    --popover: 0 100% 40%;
+    --popover-foreground: 60 100% 95%;
+
+    --primary: 60 100% 50%; /* Bright yellow primary */
+    --primary-foreground: 0 100% 25%; /* Dark red text on yellow */
+
+    --secondary: 180 100% 50%; /* Bright cyan secondary */
+    --secondary-foreground: 300 100% 25%; /* Dark magenta text */
+
+    --muted: 300 50% 30%;
+    --muted-foreground: 60 100% 80%;
+
+    --accent: 120 100% 50%; /* Neon green accent */
+    --accent-foreground: 300 100% 25%;
+
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 60 100% 95%;
+
+    --border: 60 100% 70%; /* Bright yellow borders */
+    --input: 300 50% 20%;
+    --ring: 60 100% 50%;
+
+    /* Retro Gradients */
+    --gradient-neon: linear-gradient(45deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
+    --gradient-hotdog: linear-gradient(90deg, hsl(0 100% 50%), hsl(30 100% 50%), hsl(60 100% 50%));
+    --gradient-bg: linear-gradient(135deg, hsl(0 100% 50%) 0%, hsl(300 100% 50%) 25%, hsl(180 100% 50%) 50%, hsl(60 100% 50%) 75%, hsl(0 100% 50%) 100%);
+    
+    /* Retro Shadows */
+    --shadow-neon: 0 0 20px hsl(var(--accent)), 0 0 40px hsl(var(--accent)), 0 0 60px hsl(var(--accent));
+    --shadow-hotdog: 0 4px 0 hsl(0 100% 30%), 0 8px 0 hsl(300 100% 30%), 0 12px 20px rgba(0,0,0,0.5);
+    
+    /* Animations */
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-neon: all 0.2s ease-in-out;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+
+/* 90s RETRO UTILITIES */
+@layer utilities {
+  .font-comic {
+    font-family: 'Comic Neue', cursive;
+  }
+  
+  .font-pixel {
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  .font-small-pixel {
+    font-family: 'VT323', cursive;
+  }
+  
+  .text-neon {
+    text-shadow: var(--shadow-neon);
+  }
+  
+  .shadow-hotdog {
+    box-shadow: var(--shadow-hotdog);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+  
+  .transition-neon {
+    transition: var(--transition-neon);
+  }
+  
+  .bg-gradient-neon {
+    background: var(--gradient-neon);
+  }
+  
+  .bg-gradient-hotdog {
+    background: var(--gradient-hotdog);
+  }
+  
+  .border-retro {
+    border: 4px solid;
+    border-color: hsl(var(--border));
+    border-style: ridge;
+  }
+  
+  .animate-blink {
+    animation: blink 1s linear infinite;
+  }
+  
+  .animate-wobble {
+    animation: wobble 2s ease-in-out infinite;
+  }
+  
+  .animate-rainbow-bg {
+    animation: rainbow-bg 10s ease-in-out infinite;
+  }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-2deg) scale(1.05); }
+  75% { transform: rotate(2deg) scale(0.95); }
+}
+
+@keyframes rainbow-bg {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Press_Start_2P, VT323 } from "next/font/google";
 import "./globals.css";
+import "./index.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const pressStart2P = Press_Start_2P({
   subsets: ["latin"],
+  weight: ["400"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const vt323 = VT323({
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -24,10 +25,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${vt323.className} antialiased`}>
+        <div id="root"> {children} </div>
+        <div
+          className={`${pressStart2P.className} z-50 sticky bottom-0 left-0 right-0 w-screen bg-black flex justify-around !p-2 border-t-2 border-white`}
+        >
+          <a
+            href="/"
+            className="text-white cursor-pointer underline underline-offset-2"
+          >
+            Home
+          </a>
+          {/* <a
+            href="/math"
+            className="text-white cursor-pointer underline underline-offset-2"
+          >
+            Math!
+          </a> */}
+          <a
+            href="/training"
+            className="text-white cursor-pointer underline underline-offset-2"
+          >
+            Training
+          </a>
+        </div>
       </body>
     </html>
   );
