@@ -26,7 +26,7 @@ export const GenerateImagesButton = () => {
       <button
         onClick={handleGenerateImages}
         disabled={isGenerating}
-        className="hover:scale-110 transition-bounce"
+        className="hover:scale-110 transition-bounce text-center w-full"
       >
         {isGenerating ? "Generating..." : "Generate Images"}
       </button>

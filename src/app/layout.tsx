@@ -26,28 +26,38 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${vt323.className} antialiased`}>
-        <div id="root"> {children} </div>
-        <div
-          className={`${pressStart2P.className} z-50 sticky bottom-0 left-0 right-0 w-screen bg-black flex justify-around !p-2 border-t-2 border-white`}
-        >
-          <a
-            href="/"
-            className="text-white cursor-pointer underline underline-offset-2"
+        <div className="h-screen overflow-hidden flex flex-col">
+          <div className="grow overflow-auto !p-4 h-full max-h-full">
+            {children}
+          </div>
+          <div
+            className={`${pressStart2P.className} w-screen bg-black flex justify-around !p-2 border-t-2 border-white`}
           >
-            Home
-          </a>
-          {/* <a
+            <a
+              href="/"
+              className="text-white cursor-pointer underline underline-offset-2"
+            >
+              Image
+            </a>
+            {/* <a
             href="/math"
             className="text-white cursor-pointer underline underline-offset-2"
           >
             Math!
           </a> */}
-          <a
-            href="/training"
-            className="text-white cursor-pointer underline underline-offset-2"
-          >
-            Training
-          </a>
+            <a
+              href="/text"
+              className="text-white cursor-pointer underline underline-offset-2"
+            >
+              Text
+            </a>
+            <a
+              href="/training"
+              className="text-white cursor-pointer underline underline-offset-2"
+            >
+              Training
+            </a>
+          </div>
         </div>
       </body>
     </html>

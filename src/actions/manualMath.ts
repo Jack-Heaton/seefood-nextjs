@@ -25,7 +25,7 @@ export const doMath = (
     a.map((value, index) =>
       operator === "+" ? value + b[index] : value - b[index]
     ),
-    c
+    c.map((value, index) => (operator === "+" ? value / 2 : value * 2))
   );
 
   console.log(result);
