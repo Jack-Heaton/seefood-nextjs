@@ -48,7 +48,7 @@ export const Panels = () => {
       </div>
       <div className="flex flex-row grow max-h-full overflow-y-auto">
         <div className="border-r-2 border-white !p-4 flex-1/2 flex flex-col gap-4 max-h-full overflow-y-auto">
-          <div className="font-pixel text-2xl">From KB</div>
+          <div className="font-pixel">From KB</div>
           <div
             className="text-2xl"
             dangerouslySetInnerHTML={{
