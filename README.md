@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SEEFOOD 🌭
 
-## Getting Started
+**Is it a hot dog? A "fun" primer on vectors, embeddings and similarity search, built on Amazon S3 Vectors.**
 
-First, run the development server:
+I built this for a talk at the local AWS User Group in September 2025. Amazon S3 Vectors had just come out, and I wanted a lighthearted way to show what embeddings are, how vector search works, and why "similar" is a number you can compute. The excuse was an app (yes, *that* SeeFood) that tells you how likely it is that a picture contains a hot dog.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+It's demo code: no auth, no tests, and the AWS resources are set up by hand. The point is the ideas, not production hardening.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it works
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Build a reference set.** The Training page asks Amazon Titan Image Generator for pictures of hot dogs and stores them in S3. Each image is turned into a vector with Amazon Titan Multimodal Embeddings and written to an S3 Vectors index.
+2. **Embed the photo you upload.** The upload goes through the same embedding model, so it lands in the same vector space as the reference hot dogs.
+3. **Ask S3 Vectors for the nearest neighbors.** The app queries the 10 closest reference vectors and averages their distance.
+4. **Decide.** If the average distance is under 0.6, it's a hot dog. Otherwise, not hot dog.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The index only contains hot dogs, so the classifier answers "how hot-dog-like is this?" rather than "what food is this?" That makes the edge cases fun to try on stage: pigs in a blanket, bratwurst, the Wienermobile, a stuffed pepper, a veggie dog. There's a pile of test images in [`samples/`](samples).
 
-## Learn More
+## The pages
 
-To learn more about Next.js, take a look at the following resources:
+| Route | What it shows |
+| --- | --- |
+| `/` | The classifier. Upload a photo and get hot dog / not hot dog, with the nearest-neighbor distances. |
+| `/training` | Generate more reference hot dogs with Titan Image Generator and see every training image with its average distance to the rest of the set. |
+| `/math` | Embedding arithmetic. Pick three images, compute `image1 ± image2`, and measure how close the result lands to `image3`. (The distance is logged to the server console.) |
+| `/text` | Why retrieval matters. The same question goes to Amazon Nova Micro on its own and to a Bedrock Knowledge Base `RetrieveAndGenerate` call, side by side. Both answer as a New York City hot dog vendor. The bottom panel shows the Wikipedia hot dog article split into the 100-word chunks that get embedded. |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js 15 (App Router, server actions), React 19, Tailwind CSS 4
+- Amazon Bedrock: Titan Multimodal Embeddings G1, Titan Image Generator G1, Titan Text Embeddings V2, Nova Micro, Knowledge Bases
+- Amazon S3 Vectors for the vector indexes, Amazon S3 for the images
 
-## Deploy on Vercel
+## Running it yourself
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+You'll need an AWS account and credentials available to the AWS SDK (the default credential provider chain, such as `AWS_PROFILE`). Running this costs money for Bedrock calls and storage. It isn't much for a demo, but tear things down when you're done.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Enable Bedrock model access**
+   - `us-east-1`: Titan Multimodal Embeddings G1, Titan Image Generator G1, Titan Text Embeddings V2
+   - `us-east-2`: Amazon Nova Micro (called through the `us.` cross-region inference profile)
+
+   Titan Image Generator G1 may no longer be offered for new use. If it isn't, swap in another image model or upload your own hot dog photos as the reference set.
+
+2. **Create the storage** in `us-east-2`
+   - An S3 bucket for the reference images
+   - An S3 Vectors bucket with two indexes: one for images and one for text. Both models output 1024-dimension vectors by default. The 0.6 cutoff in `src/components/HotdogClassifier.tsx` depends on the distance metric you choose, so expect to retune it.
+
+3. **(Optional, for `/text`) Create a Bedrock Knowledge Base** over the hot dog article ([`pdf/Hot_dog.pdf`](pdf/Hot_dog.pdf)). Then update the knowledge base ID and model ARN, which are hard-coded in `src/actions/invokeModel.ts`.
+
+4. **Configure** `.env.local`:
+
+   ```bash
+   FILES_BUCKET=your-image-bucket
+   VECTOR_BUCKET=your-vector-bucket
+   INDEX_NAME=your-image-index
+   TEXT_INDEX_NAME=your-text-index
+   ```
+
+5. **Run**
+
+   ```bash
+   npm install
+   npm run dev
+   ```
+
+   Open http://localhost:3000. Visit `/training` first and generate a few batches of hot dogs, because the classifier has nothing to compare against until the index has vectors in it.
+
+## Credits
+
+The hot dog text used on `/text` comes from Wikipedia's [Hot dog](https://en.wikipedia.org/wiki/Hot_dog) article, licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The app's name is a nod to HBO's *Silicon Valley*.
