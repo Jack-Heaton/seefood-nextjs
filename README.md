@@ -44,7 +44,7 @@ You'll need an AWS account and credentials available to the AWS SDK (the default
    - An S3 bucket for the reference images
    - An S3 Vectors bucket with two indexes: one for images and one for text. Both models output 1024-dimension vectors by default. The 0.6 cutoff in `src/components/HotdogClassifier.tsx` depends on the distance metric you choose, so expect to retune it.
 
-3. **(Optional, for `/text`) Create a Bedrock Knowledge Base** over the hot dog article ([`pdf/Hot_dog.pdf`](pdf/Hot_dog.pdf)). Then update the knowledge base ID and model ARN, which are hard-coded in `src/actions/invokeModel.ts`.
+3. **(Optional, for `/text`) Create a Bedrock Knowledge Base** over the hot dog article ([`pdf/Hot_dog.pdf`](pdf/Hot_dog.pdf)). Put its ID and the ARN of the model it should answer with (for example, the Nova Micro inference profile) in `KNOWLEDGE_BASE_ID` and `KB_MODEL_ARN` below.
 
 4. **Configure** `.env.local`:
 
@@ -53,6 +53,10 @@ You'll need an AWS account and credentials available to the AWS SDK (the default
    VECTOR_BUCKET=your-vector-bucket
    INDEX_NAME=your-image-index
    TEXT_INDEX_NAME=your-text-index
+
+   # Only needed for /text
+   KNOWLEDGE_BASE_ID=your-knowledge-base-id
+   KB_MODEL_ARN=arn:aws:bedrock:us-east-2:<account-id>:inference-profile/us.amazon.nova-micro-v1:0
    ```
 
 5. **Run**
