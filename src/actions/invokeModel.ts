@@ -90,9 +90,8 @@ export async function retrieveAndGenerate(prompt: string) {
       retrieveAndGenerateConfiguration: {
         type: "KNOWLEDGE_BASE",
         knowledgeBaseConfiguration: {
-          modelArn:
-            "arn:aws:bedrock:us-east-2:053789260438:inference-profile/us.amazon.nova-micro-v1:0",
-          knowledgeBaseId: "DXPDPDJTPU", // required
+          modelArn: process.env.KB_MODEL_ARN,
+          knowledgeBaseId: process.env.KNOWLEDGE_BASE_ID, // required
           retrievalConfiguration: {
             vectorSearchConfiguration: {
               numberOfResults: 25,
